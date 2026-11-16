@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Speed Dial</title>
+<link rel="stylesheet" href="newtab.css">
+<script src="boot.js"></script>
+</head>
+<body>
+<div id="bg"></div><div id="dim"></div>
+<header><nav id="tabs"></nav><button id="newsbtn" type="button" data-i18n-title="wn_t" data-i18n-aria="wn_t"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></button><button id="updbtn" type="button" data-i18n-title="upd_t" data-i18n-aria="upd_t"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 12A9 9 0 0 1 18.5 5.8L21 8"/><path d="M21 3v5h-5M3 21v-5h5"/></svg></button><button id="wallbtn" type="button">3D</button><div id="uname" hidden></div><div id="side"><div id="cd" hidden></div></div><span id="up" data-i18n-title="up_tip">0:00:00</span><button id="hidebtn" type="button" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M3 3l18 18"/></svg></button><button id="donbtn" type="button" data-i18n-title="don_tip" data-i18n-aria="don_tip"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C1 8.6 2.8 5 6.3 5c2 0 3.5 1 4.5 2.5h2.4C14.2 6 15.7 5 17.7 5c3.5 0 5.3 3.6 3.9 6.800C19.5 16.400 12 21 12 21z"/></svg></button><button id="gear" data-i18n-title="settings" data-i18n-aria="settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button></header>
+<main><div id="grid"></div><form id="lock" hidden autocomplete="off"><svg class="lkbig" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><h2 id="lock-n"></h2><p data-i18n="pw_page_locked"></p><div class="lkr"><input id="lock-i" type="password" autocomplete="off" data-i18n-aria="pw_enter" data-i18n-ph="pw_enter"><button type="submit" data-i18n="pw_open"></button></div><div id="lock-e" role="alert"></div><button type="button" id="lock-rst" class="lkl" data-i18n="pw_reset"></button></form></main>
+<footer id="sbw">
+  <form id="sb" role="search">
+    <select id="se" data-i18n-aria="se_label"></select>
+    <input id="sq" type="search" autocomplete="off" enterkeyhint="search" data-i18n-aria="s_search">
+    <button id="sg" type="submit" data-i18n-aria="go_search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+  </form>
+</footer>
+<div id="menu" popover="manual"></div>
+<div id="tip" popover="manual"></div>
+
+<aside id="panel" role="dialog" data-i18n-aria="settings">
+  <div class="ph" data-i18n-title="panel_hint"><h2 data-i18n="settings"></h2><span class="credit" aria-label="created by Ghost"><i></i><em>created by</em><b>Ghost</b><i></i></span><span class="ver" id="pver"></span><span class="pth"><button type="button" id="pth-d" data-i18n-title="pth_dark" data-i18n-aria="pth_dark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></button><button type="button" id="pth-l" data-i18n-title="pth_light" data-i18n-aria="pth_light"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></span><button type="button" id="px" data-i18n-aria="close">✕</button></div>
+  <div class="pbody"><nav id="pnav" aria-label="categories"></nav><div class="pb"><div class="pcols">
+    <section><h3 data-i18n="s_lang"></h3>
+      <label><span data-i18n="l_lang"></span> <select data-k="lang" id="lang"></select></label>
+    </section>
+    <section><h3 data-i18n="s_ui"></h3>
+      <label><span data-i18n="l_pop"></span> <input type="range" data-k="pop" min="0" max="100"><output class="pv"></output></label>
+      <label><span data-i18n="l_pcs"></span> <span class="sws" id="sws-c" role="radiogroup"></span></label>
+      <label><span data-i18n="l_pbs"></span> <span class="sws" id="sws-b" role="radiogroup"></span></label>
+      <label><span data-i18n="l_pos"></span> <span class="sws" id="sws-o" role="radiogroup"></span></label>
+    </section>
+    <section><h3 data-i18n="s_name"></h3>
+      <div class="row nm"><b id="unshow"></b><button type="button" id="unedit" data-i18n="b_chname"></button></div>
+      <label class="chk"><input type="checkbox" data-k="uns"> <span data-i18n="c_uns"></span></label>
+      <label data-show="uns"><span data-i18n="l_unz"></span> <input type="range" data-k="unz" min="14" max="44"><output class="pv"></output></label>
+      <label data-show="uns"><span data-i18n="l_unc"></span> <input type="color" data-k="unc"></label>
+    </section>
+    <section><h3 data-i18n="s_cd"></h3>
+      <div class="srow">
+        <label class="chk"><input type="checkbox" data-k="cds"> <span data-i18n="c_cds"></span></label>
+        <label class="chk" id="cd-yl" data-show="cds"><input type="checkbox" id="cd-y"> <span data-i18n="c_cdy"></span></label>
+      </div>
+      <div class="cdf" data-show="cds">
+        <div class="seg" id="cd-mode"><button type="button" data-v="date" class="on" data-i18n="cd_mode_d"></button><button type="button" data-v="time" data-i18n="cd_mode_t"></button></div>
+        <div class="cdr">
+          <input type="text" id="cd-n" maxlength="40" data-i18n-ph="cd_ph" autocomplete="off" spellcheck="false">
+          <div id="cd-pd"><input type="hidden" id="cd-d">
+            <button type="button" id="cd-db" class="fld"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span id="cd-dt"></span></button>
+          </div>
+          <div id="cd-pt" hidden><input type="time" id="cd-tm" value="18:00"></div>
+          <button type="button" id="cd-add" data-i18n="b_cdadd"></button>
+        </div>
+        <div id="cal" hidden></div>
+      </div>
+      <div id="cd-l" data-show="cds"></div>
+    </section>
+    <section><h3 data-pro data-i18n="s_alock"></h3>
+      <label class="chk"><input type="checkbox" data-k="al"> <span data-i18n="c_al"></span></label>
+      <label data-show="al"><select data-k="alm" data-seg data-min="1"><option value="1">1</option><option value="3">3</option><option value="5">5</option><option value="15">15</option><option value="30">30</option><option value="60">60</option></select></label>
+    </section>
+    <section><h3 data-pro data-i18n="s_panic"></h3>
+      <div class="hcr"><label class="chk sw"><input type="checkbox" data-k="pnc" role="switch"><i></i><b id="pnc-t"></b></label><p class="hint" data-i18n="pnc_h"></p></div>
+    </section>
+    <section><h3 data-pro data-i18n="s_hist"></h3>
+      <div class="hcr"><label class="chk sw"><input type="checkbox" data-k="hc" role="switch"><i></i><b id="hc-t"></b></label><p class="hint" data-i18n="hc_h"></p></div>
+      <label><span data-i18n="hc_per"></span> <select data-k="hcp" data-seg data-lbl="hc_p"><option value="1"></option><option value="24"></option><option value="168"></option><option value="720"></option><option value="0"></option></select></label>
+      <label data-show="hc"><span data-i18n="hc_when"></span> <select data-k="hcw" data-seg data-lbl="hc_w_"><option value="m"></option><option value="c"></option><option value="60"></option><option value="1440"></option><option value="10080"></option></select></label>
+      <div class="row"><button type="button" id="hc-now" data-i18n="hc_now"></button></div>
+      <hr class="hcsep">
+      <div class="hcs"><div class="hct" data-i18n="hc_sites"></div>
+        <div class="hcr"><label class="chk sw"><input type="checkbox" data-k="hs" role="switch"><i></i><b id="hs-t"></b></label><p class="hint" data-i18n="hc_sh"></p></div>
+        <div class="hca"><input type="text" id="hc-site" maxlength="120" autocomplete="off" spellcheck="false" data-i18n-ph="hc_ph"><button type="button" id="hc-add" data-i18n="hc_add"></button><button type="button" id="hc-ls" data-i18n="hc_list"></button></div>
+        <label data-show="hs"><span data-i18n="hc_when"></span> <select data-k="hsw" data-seg data-lbl="hc_w_"><option value="m"></option><option value="c"></option><option value="60"></option><option value="1440"></option><option value="10080"></option></select></label>
+        <div class="row"><button type="button" id="hs-now" data-i18n="hc_now"></button></div></div>
+    </section>
+    <section><h3 data-pro data-i18n="s_prot"></h3>
+      <div class="hcr"><label class="chk sw"><input type="checkbox" data-k="prm" role="switch"><i></i><b></b></label><p class="hint" data-i18n="pm_h"></p></div>
+      <label data-show="prm"><span data-i18n="pm_tl"></span> <select data-k="pmt" data-seg data-lbl="pm_t_"><option value="fake"></option><option value="real"></option></select></label>
+      <label data-show="prm"><span data-i18n="pm_per"></span> <select data-k="pmi" data-seg data-lbl="pm_i"><option value="1"></option><option value="3"></option><option value="5"></option><option value="15"></option><option value="30"></option><option value="60"></option></select></label>
+      <div class="pmr" data-show="prm"><button type="button" id="pm-code" data-show="pmt=real" data-i18n="pm_code"></button><button type="button" id="pm-now" data-i18n="pm_now"></button></div>
+      <p class="hint" id="pm-st" data-show="prm&pmt=real"></p>
+    </section>
+    <section><h3 data-i18n="s_themes"></h3>
+      <select id="theme" class="wide"></select>
+      <div class="row"><button type="button" id="th-save" data-i18n="th_save"></button><button type="button" id="th-del" data-i18n="delete"></button></div>
+      <div class="row"><button type="button" id="th-exp" data-i18n="th_exp"></button><button type="button" id="th-imp" data-i18n="th_imp"></button></div>
+      <input type="file" id="th-f" accept="application/json" hidden>
+    </section>
+    <section><h3 data-i18n="s_tpl"></h3>
+      <label><span data-i18n="l_view"></span> <select data-k="tpl"><option value="flat" data-i18n="o_flat"></option><option value="wall" data-i18n="o_wall"></option></select></label>
+    </section>
+    <section><h3 data-i18n="s_bg"></h3>
+      <label><span data-i18n="l_bt"></span> <select data-k="bt" data-seg><option value="color" data-i18n="o_bt_color"></option><option value="gradient" data-i18n="o_bt_gradient"></option><option value="image" data-i18n="image"></option></select></label>
+      <label><span data-i18n="l_c1"></span> <input type="color" data-k="c1"></label>
+      <label class="o-gradient"><span data-i18n="l_c2"></span> <input type="color" data-k="c2"></label>
+      <div class="o-image">
+        <label><span data-i18n="image"></span> <input type="file" id="bgfile" accept="image/*"></label>
+        <label><span data-i18n="blur"></span> <input type="range" data-k="blur" min="0" max="30"><output class="pv"></output></label>
+        <label><span data-i18n="l_dim"></span> <input type="range" data-k="dim" min="0" max="0.8" step="0.05"><output class="pv"></output></label>
+        <div class="row"><button type="button" id="bgrm" data-i18n="bgrm"></button></div>
+      </div>
+    </section>
+    <section><h3 data-i18n="s_data"></h3>
+      <div class="row"><button type="button" id="exp" data-i18n="exp"></button><button type="button" id="imp" data-i18n="imp"></button></div>
+      <input type="file" id="impf" accept="application/json" hidden>
+      <div class="row"><button type="button" id="lnk" data-i18n="b_links"></button></div>
+    </section>
+    <section><h3 data-i18n="s_reset"></h3>
+      <div class="row"><button type="button" id="pwrst" data-i18n="pw_reset"></button></div>
+      <div class="row"><button type="button" id="rst" data-i18n="rst"></button></div>
+    </section>
+    <section data-show="tpl=wall"><h3 data-i18n="s_wpre"></h3>
+      <div class="chips" id="wpre"></div>
+      <div class="row"><button type="button" id="wreset" data-i18n="wreset"></button></div>
+    </section>
+    <section data-show="tpl=wall"><h3 data-i18n="s_wlay"></h3>
+      <label><span data-i18n="l_wsc"></span> <input type="range" data-k="wsc" min="40" max="200"><output class="pv"></output></label>
+      <label><span data-i18n="l_wfill"></span> <input type="range" data-k="wfill" min="50" max="100"><output class="pv"></output></label>
+      <label><span data-i18n="l_wasp"></span> <input type="range" data-k="wasp" min="0.8" max="2.2" step="0.05"><output class="pv"></output></label>
+      <label><span data-i18n="l_wcol"></span> <input type="range" data-k="wcol" min="0" max="12"><output class="pv"></output></label>
+      <label data-show="wcol=0"><span data-i18n="l_wrow"></span> <input type="range" data-k="wrow" min="0" max="10"><output class="pv"></output></label>
+      <label><span data-i18n="l_wgap"></span> <input type="range" data-k="wgap" min="0" max="60"><output class="pv"></output></label>
+      <label><span data-i18n="l_wrad"></span> <input type="range" data-k="wrad" min="0" max="60"><output class="pv"></output></label>
+      <label><span data-i18n="l_wva"></span> <select data-k="wva"><option value="top" data-i18n="o_top"></option><option value="center" data-i18n="o_center"></option><option value="bottom" data-i18n="o_bottom"></option></select></label>
+      <label><span data-i18n="l_wox"></span> <input type="range" data-k="wox" min="-400" max="400" step="5"><output class="pv"></output></label>
+      <label><span data-i18n="l_woy"></span> <input type="range" data-k="woy" min="-300" max="300" step="5"><output class="pv"></output></label>
+    </section>
+    <section data-show="tpl=wall"><h3 data-i18n="s_wcurve"></h3>
+      <label><span data-i18n="l_wcv"></span> <input type="range" data-k="wcv" min="-30" max="30"><output class="pv"></output></label>
+      <label><span data-i18n="l_wvt"></span> <input type="range" data-k="wvt" min="-20" max="20"><output class="pv"></output></label>
+      <label><span data-i18n="l_wry"></span> <input type="range" data-k="wry" min="-25" max="25"><output class="pv"></output></label>
+      <label><span data-i18n="l_wrx"></span> <input type="range" data-k="wrx" min="0" max="30"><output class="pv"></output></label>
+      <label><span data-i18n="l_wpd"></span> <input type="range" data-k="wpd" min="600" max="3000" step="50"><output class="pv"></output></label>
+    </section>
+    <section data-show="tpl=wall"><h3 data-i18n="s_whover"></h3>
+      <label><span data-i18n="l_wz"></span> <input type="range" data-k="wz" min="0" max="100"><output class="pv"></output></label>
+    </section>
+    <section><h3 data-i18n="s_tiles"></h3>
+      <label data-show="tpl!=wall"><span data-i18n="l_w"></span> <input type="range" data-k="w" min="80" max="400"><output class="pv"></output></label>
+      <label data-show="tpl!=wall"><span data-i18n="l_h"></span> <input type="range" data-k="h" min="60" max="400"><output class="pv"></output></label>
+      <label data-show="tpl!=wall"><span data-i18n="l_gap"></span> <input type="range" data-k="gap" min="0" max="60"><output class="pv"></output></label>
+      <label data-show="tpl!=wall"><span data-i18n="l_foy"></span> <input type="range" data-k="foy" min="-300" max="300"><output class="pv"></output></label>
+      <label data-show="tpl!=wall"><span data-i18n="l_wsc"></span> <input type="range" data-k="sc" min="40" max="200"><output class="pv"></output></label>
+      <label data-show="tpl!=wall"><span data-i18n="l_r"></span> <input type="range" data-k="r" min="0" max="80"><output class="pv"></output></label>
+      <label><span data-i18n="l_fs"></span> <input type="range" data-k="fs" min="10" max="24"><output class="pv"></output></label>
+      <label><span data-i18n="l_op"></span> <input type="range" data-k="op" min="0.3" max="1" step="0.05"><output class="pv"></output></label>
+    </section>
+    <section data-show="tpl!=wall"><h3 data-i18n="s_icons"></h3>
+      <label class="chk"><input type="checkbox" data-k="icv"> <span data-i18n="c_icv"></span></label>
+      <label data-show="icv"><span data-i18n="l_ics"></span> <input type="range" data-k="ics" min="0" max="100"><output class="pv"></output></label>
+      <label data-show="icv"><span data-i18n="l_icl"></span> <input type="range" data-k="icl" min="12" max="40"><output class="pv"></output></label>
+    </section>
+    <section><h3 data-i18n="s_titles"></h3>
+      <label class="chk"><input type="checkbox" data-k="tsh"> <span data-i18n="c_tsh"></span></label>
+      <label data-show="tsh&tpl!=wall"><span data-i18n="l_tpos"></span> <select data-k="tpos"><option value="on" data-i18n="o_tp_on"></option><option value="under" data-i18n="o_tp_under"></option></select></label>
+      <label data-show="tsh"><span data-i18n="l_tc"></span> <input type="color" data-k="tc"></label>
+      <label data-show="tsh"><span data-i18n="l_tf"></span> <select data-k="tf"><option value="inherit" data-i18n="o_font_sys"></option><option value="Georgia,serif">Georgia</option><option value="Trebuchet MS,sans-serif">Trebuchet</option><option value="Courier New,monospace">Courier</option><option value="Impact,sans-serif">Impact</option><option value="Comic Sans MS,cursive">Comic Sans</option></select></label>
+      <label data-show="tsh"><span data-i18n="l_tfs"></span> <input type="range" data-k="tfs" min="8" max="40"><output class="pv"></output></label>
+      <label class="chk" data-show="tsh"><input type="checkbox" data-k="tw"> <span data-i18n="c_tw"></span></label>
+      <label class="chk" data-show="tsh"><input type="checkbox" data-k="ti"> <span data-i18n="c_ti"></span></label>
+      <label class="chk" data-show="tsh"><input type="checkbox" data-k="tsk"> <span data-i18n="c_tsk"></span></label>
+      <label data-show="tsh&tsk"><span data-i18n="l_tskc"></span> <input type="color" data-k="tskc"></label>
+      <div class="row" data-show="tsh"><button type="button" id="addfont" data-i18n="b_addfont"></button><button type="button" id="delfont" data-i18n="b_delfont"></button><input type="file" id="fontf" accept=".ttf,.otf,.woff,.woff2,font/*" hidden></div>
+    </section>
+    
+    <section data-show="tpl!=wall"><h3 data-i18n="s_tilt"></h3>
+      <div class="srow">
+      <label class="chk"><input type="checkbox" data-k="tilt"> <span data-i18n="c_tilt"></span></label>
+      <label class="chk"><input type="checkbox" data-k="glare"> <span data-i18n="c_glare"></span></label>
+      </div>
+      <label data-show="tilt"><span data-i18n="l_tm"></span> <input type="range" data-k="tm" min="2" max="25"><output class="pv"></output></label>
+      <label data-show="tilt"><span data-i18n="enlarge"></span> <input type="range" data-k="ts" min="1" max="1.15" step="0.01"><output class="pv"></output></label>
+    </section>
+    <section data-show="tpl!=wall"><h3 data-i18n="s_pulse"></h3>
+      <label class="chk"><input type="checkbox" data-k="pe"> <span data-i18n="c_hover"></span></label>
+      <label data-show="pe"><span data-i18n="l_pm"></span> <select data-k="pm"><option value="ripple" data-i18n="o_pm_ripple"></option><option value="runner" data-i18n="o_pm_runner"></option><option value="scan" data-i18n="o_pm_scan"></option><option value="dash" data-i18n="o_pm_dash"></option><option value="leaves" data-i18n="o_pm_leaves"></option><option value="snow" data-i18n="o_pm_snow"></option><option value="stars" data-i18n="o_pm_stars"></option><option value="glitch" data-i18n="o_pm_glitch"></option><option value="sheen" data-i18n="o_pm_sheen"></option><option value="portal" data-i18n="o_pm_portal"></option><option value="blood" data-i18n="o_pm_blood"></option><option value="fire" data-i18n="o_pm_fire"></option></select></label>
+      <label data-show="pe"><span data-i18n="l_ps"></span> <input type="range" data-k="ps" min="1" max="12" step="0.5"><output class="pv"></output></label>
+      <label class="o-nh" data-show="pe"><span data-i18n="l_pq"></span> <select data-k="pq"><option value="linear" data-i18n="o_pq_linear"></option><option value="smooth" data-i18n="o_pq_smooth"></option><option value="out" data-i18n="o_pq_out"></option><option value="steps" data-i18n="o_pq_steps"></option></select></label>
+      <label class="o-dir" data-show="pe"><span data-i18n="l_pd"></span> <select data-k="pd"><option value="normal" data-i18n="o_pd_normal"></option><option value="reverse" data-i18n="o_pd_reverse"></option><option value="alternate" data-i18n="o_pd_alt"></option></select></label>
+      <label class="o-wave" data-show="pe"><span data-i18n="l_pz"></span> <input type="range" data-k="pz" min="4" max="60"><output class="pv"></output></label>
+      <label class="o-nh" data-show="pe"><span data-i18n="l_pt"></span> <input type="range" data-k="pt" min="1" max="12"><output class="pv"></output></label>
+      <label class="o-run" data-show="pe"><span data-i18n="l_pk"></span> <input type="range" data-k="pk" min="1" max="6"><output class="pv"></output></label>
+      <label class="o-run" data-show="pe"><span data-i18n="l_pl"></span> <input type="range" data-k="pl" min="10" max="95"><output class="pv"></output></label>
+      <label class="o-nh" data-show="pe"><span data-i18n="glow"></span> <input type="range" data-k="pg" min="0" max="24"><output class="pv"></output></label>
+      <label data-show="pe"><span data-i18n="l_pi"></span> <input type="range" data-k="pi" min="0.2" max="1" step="0.05"><output class="pv"></output></label>
+      <label class="o-pc o-nh o-col" data-show="pe&!pr"><span data-i18n="l_pc"></span> <input type="color" data-k="pc"></label>
+      <label class="chk o-nh o-col" data-show="pe"><input type="checkbox" data-k="pr"> <span data-i18n="c_pr"></span></label>
+      <label class="o-rgb o-nh o-col" data-show="pe&pr"><span data-i18n="l_prs"></span> <input type="range" data-k="prv" min="1" max="12" step="0.5"><output class="pv"></output></label>
+      <div class="row" data-show="pe"><button type="button" id="pdef" data-i18n="pdef"></button></div>
+    </section>
+    <section><h3 data-i18n="s_neon"></h3>
+      <label class="chk"><input type="checkbox" data-k="neon"> <span data-i18n="c_hover"></span></label>
+      <label data-show="neon"><span data-i18n="l_nc"></span> <input type="color" data-k="nc"></label>
+      <label data-show="neon"><span data-i18n="l_nt"></span> <input type="range" data-k="nt" min="1" max="10"><output class="pv"></output></label>
+      <label data-show="neon&tpl!=wall"><span data-i18n="l_nb"></span> <select data-k="nb"><option value="off" data-i18n="o_nb_off"></option><option value="smooth" data-i18n="o_nb_smooth"></option><option value="fast" data-i18n="o_nb_fast"></option></select></label>
+    </section>
+    <section><h3 data-i18n="s_tabs"></h3>
+      <label class="chk"><input type="checkbox" data-k="ta"> <span data-i18n="c_ta"></span></label>
+      <label><span data-i18n="l_tr"></span> <input type="range" data-k="tr" min="0" max="20"><output class="pv"></output></label>
+      <label><span data-i18n="l_tcl"></span> <input type="color" data-k="tcl"></label>
+      <label><span data-i18n="l_tg"></span> <input type="range" data-k="tg" min="0" max="40"><output class="pv"></output></label>
+    </section>
+    <section><h3 data-i18n="s_search"></h3>
+      <div class="srow">
+      <label class="chk"><input type="checkbox" data-k="sbb"> <span data-i18n="c_sb"></span></label>
+      <label class="chk"><input type="checkbox" data-k="st"> <span data-i18n="c_sbt"></span></label>
+      </div>
+      <label data-show="sb"><span data-i18n="l_w"></span> <input type="range" data-k="sw" min="320" max="900" step="10"><output class="pv"></output></label>
+      <label class="chk" data-show="sb"><input type="checkbox" data-k="sn"> <span data-i18n="c_sn"></span></label>
+      <div class="row" data-show="sb"><button type="button" id="se-add" data-i18n="se_add"></button><button type="button" id="se-del" data-i18n="se_del"></button></div>
+    </section>
+  </div></div><aside id="phelp" aria-live="polite"><div class="phi"></div><h4 id="ph-t"></h4><p id="ph-p"></p></aside></div>
+  <i class="rz" data-d="n"></i><i class="rz" data-d="s"></i><i class="rz" data-d="e"></i><i class="rz" data-d="w"></i>
+  <i class="rz" data-d="ne"></i><i class="rz" data-d="nw"></i><i class="rz" data-d="se"></i><i class="rz" data-d="sw"></i>
+</aside>
+
+<dialog id="ed">
+  <form method="dialog">
+    <div class="eh" id="e-head"><h2 id="e-h"></h2><button type="button" id="e-x" class="xbtn" data-i18n-aria="close"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg></button></div>
+    <div class="egrid">
+      <div class="ecol">
+        <label id="e-typel"><span data-i18n="l_bt"></span> <select id="e-type"><option value="site" data-i18n="o_site"></option><option value="folder" data-i18n="o_folder"></option></select></label>
+        <label><span data-i18n="l_etitle"></span> <input id="e-title" autocomplete="off"></label>
+        <label id="e-urll"><span data-i18n="l_eurl"></span> <input id="e-url" placeholder="example.com" autocomplete="off"></label>
+        <h4 class="eh4" data-i18n="e_prev"></h4>
+        <div id="e-prev" class="prev"></div>
+      </div>
+      <div class="ecol">
+        <h4 class="eh4" data-i18n="e_sw_title"></h4>
+        <div class="esw" id="e-sw">
+          <button type="button" data-s="shot" style="--ec:#00e5ff"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.5-2h5L16 5"/></svg><span data-i18n="e_sw_shot"></span><i></i></button>
+          <button type="button" data-s="icon" style="--ec:#4ade80"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 7.5l1.4 3 3.2.4-2.4 2.2.7 3.2-2.9-1.7-2.9 1.7.7-3.2-2.4-2.2 3.2-.4z"/></svg><span data-i18n="e_sw_icon"></span><i></i></button>
+          <button type="button" data-s="url" style="--ec:#ff4fd8"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span data-i18n="e_sw_url"></span><i></i></button>
+        </div>
+        <p class="ehint" id="e-swh" data-i18n="e_sw_hint"></p>
+        <div class="eblk"><b data-i18n="e_sw_shot"></b><div class="row"><span id="e-shotst" class="est"></span><button type="button" id="e-shotrm" class="edel" data-i18n="e_shot_rm"></button></div></div>
+        <div class="eblk"><b data-i18n="e_blk_icon"></b><div class="row"><input type="file" id="e-file" accept="image/*"><button type="button" id="e-rm" class="edel" data-i18n="e_rm"></button></div></div>
+        <div class="eblk"><b data-i18n="e_blk_url"></b><input type="url" id="e-iu" placeholder="https://example.com/logo.png" autocomplete="off"></div>
+        <div class="eblk"><b data-i18n="l_ecolor"></b><div class="row"><input type="color" id="e-bg"><label class="chk"><input type="checkbox" id="e-auto"> <span data-i18n="c_eauto"></span></label></div></div>
+        <div class="eblk"><b data-i18n="l_emode"></b><select id="e-mode"><option value="icon" data-i18n="o_mode_icon"></option><option value="fill" data-i18n="o_mode_fill"></option></select></div>
+      </div>
+    </div>
+    <div class="row end"><button type="button" id="e-cancel" data-i18n="cancel"></button><button id="e-save" class="pri" data-i18n="save"></button></div>
+  </form>
+</dialog>
+<dialog id="evn">
+  <div class="evh"><span data-i18n="ev_k"></span></div>
+  <div class="evb"><div class="evx"><h2 id="evn-t"></h2><div class="evn" id="evn-n"></div><div class="evs" id="evn-s"></div></div></div>
+  <div class="evf"><button type="button" id="evn-ok" data-i18n="ev_ok"></button></div>
+</dialog>
+<dialog id="mx">
+  <h3>Power Speed Dial ++</h3>
+  <p id="mx-m"></p>
+  <input type="text" id="mx-i" autocomplete="off" spellcheck="false" maxlength="300">
+  <div class="mxb"><button type="button" id="mx-ok" data-i18n="w_ok"></button></div>
+</dialog>
+<dialog id="warn"><div class="wst"></div>
+  <div class="wbd"><svg class="wi" viewBox="0 0 64 64" width="64" height="64"><path d="M32 6L61 56H3z" fill="#ffd21f" stroke="#7a1010" stroke-width="3" stroke-linejoin="round"/><rect x="29" y="22" width="6" height="20" rx="3" fill="#7a1010"/><circle cx="32" cy="48" r="3.6" fill="#7a1010"/></svg>
+    <div class="wtx"><div class="wk" data-i18n="w_kick"></div><h2 id="warn-t"></h2><p id="warn-m"></p></div></div>
+  <div class="wbt"><button type="button" id="warn-no" data-i18n="cancel"></button><button type="button" id="warn-ok" data-i18n="w_ok"></button></div>
+  <div class="wst"></div></dialog>
+<dialog id="wn"><div class="wh"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg><h2 data-i18n="wn_t"></h2></div>
+  <div id="wn-b"></div>
+  <div class="wf"><button type="button" id="wn-ok" data-i18n="wn_ok"></button></div></dialog>
+<dialog id="nm"><canvas id="nm-rain" aria-hidden="true"></canvas><form id="reg-f" autocomplete="off">
+  <h2 id="reg-h"></h2>
+  <div class="brand" id="reg-b">Power Speed Dial ++</div>
+  <div class="intro" data-i18n="reg_s"></div>
+  <p class="rg" data-i18n="reg_p"></p>
+  <input id="reg-i" type="text" maxlength="24" data-i18n-ph="reg_ph" data-i18n-aria="reg_l" autocomplete="off" spellcheck="false">
+  <button type="submit" class="nmb"><span data-i18n="reg_ok"></span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+</form></dialog>
+<dialog id="pwd"><form id="pwd-f" autocomplete="off">
+  <div class="fh"><h2 id="pwd-t"></h2><button type="button" id="pwd-x" class="xbtn" data-i18n-title="close"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg></button></div>
+  <label id="pwd-c"><span data-i18n="pw_current"></span><input id="pwd-ci" type="password" autocomplete="off"></label>
+  <label id="pwd-n"><span data-i18n="pw_new"></span><input id="pwd-ni" type="password" autocomplete="off"></label>
+  <label id="pwd-r"><span data-i18n="pw_repeat"></span><input id="pwd-ri" type="password" autocomplete="off"></label>
+  <div id="pwd-e" role="alert"></div>
+  <div class="pwb"><button type="button" id="pwd-eye" data-i18n-title="pw_show"><svg class="e1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="e2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.1 10.1 0 0 1 12 19c-6.4 0-10-7-10-7a17.7 17.7 0 0 1 4.1-5M9.9 5.2A9.7 9.7 0 0 1 12 5c6.4 0 10 7 10 7a17.8 17.8 0 0 1-2.2 3.2M1 1l22 22M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button><button type="submit" class="pwok" data-i18n="pw_ok"></button></div>
+</form></dialog>
+<dialog id="fd">
+  <div class="fh"><h2 id="fd-t"></h2><button type="button" id="fd-e" data-i18n-title="m_edit">✎</button><button type="button" id="fd-x" data-i18n-title="close">✕</button></div>
+  <div class="fb"><div id="fgrid"></div></div>
+</dialog>
+<dialog id="bl">
+  <div class="blh"><span class="blk">// CLASSIFIED</span><button type="button" id="bl-x" data-i18n-title="close">✕</button></div>
+  <h2 data-i18n="hc_sites"></h2>
+  <div class="bls"><span id="bl-n"></span><span id="bl-s"></span></div>
+  <div id="bl-g"></div>
+</dialog>
+<dialog id="dn">
+  <div class="dh2"><h2 data-i18n="don_title"></h2><button type="button" id="dn-x" data-i18n-aria="close"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg></button></div>
+  <div id="dn-steps"></div>
+  <div id="dn-main"></div>
+</dialog>
+<div id="toast" popover="manual"></div>
+<script src="i18n.js"></script>
+<script src="upd.js"></script>
+<script src="donate.js"></script>
+<script src="newtab.js"></script>
+<script src="lock.js"></script>
+</body>
+</html>

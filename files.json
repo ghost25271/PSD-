@@ -1,0 +1,20 @@
+[
+ "manifest.json",
+ "background.js",
+ "newtab.html",
+ "newtab.css",
+ "newtab.js",
+ "boot.js",
+ "i18n.js",
+ "donate.js",
+ "upd.js",
+ "popup.html",
+ "popup.js",
+ "panic.js",
+ "lock.js",
+ "welcome.webp",
+ "icons/128.png",
+ "icons/16.png",
+ "icons/48.png",
+ "icons/premium.webp"
+]
