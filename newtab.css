@@ -1299,3 +1299,13 @@ body.updb #updbtn svg{animation:updr 1s linear infinite}
 #qr .mxb{display:flex;justify-content:center}
 #qr .mxb button{min-width:96px;height:36px;padding:0 16px;border:1px solid #00ff41;border-radius:4px;background:transparent;color:#00ff41;font:inherit;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 #qr .mxb button:hover,#qr .mxb button:focus-visible{background:#00ff41;color:#001a06;box-shadow:0 0 14px #00ff41;outline:0}
+
+#wn .wl.wold{margin-top:12px;border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.04)}
+#wn .wl li b{font-style:italic;color:#fff}
+#wn .wfx{margin-top:8px}
+#wn .wfx summary{cursor:pointer;font-size:13px;font-weight:600;color:#ffb3f0;list-style:none}
+#wn .wfx summary::-webkit-details-marker{display:none}
+#wn .wfx summary::before{content:'›';display:inline-block;margin-right:7px;transition:transform .15s}
+#wn .wfx[open] summary::before{transform:rotate(90deg)}
+#wn .wfx ul{margin-top:8px}
+#wn .wl.wold .wlh{margin-bottom:8px}

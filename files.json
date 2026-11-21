@@ -7,6 +7,7 @@
  "boot.js",
  "i18n.js",
  "donate.js",
+ "changelog.js",
  "upd.js",
  "qrcode.js",
  "popup.html",

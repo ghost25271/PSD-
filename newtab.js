@@ -525,11 +525,27 @@ const WN = {
   last: ['lu_8'],
   blocks: [['fb_1', 'cat_tiles', 5], ['fb_2', 'cat_look', 4], ['fb_3', 'cat_fx', 3], ['fb_4', 'cat_profile', 6], ['fb_5', 'cat_nav', 2], ['fb_6', 'cat_main', 3]]   // [заголовок, значок із CATS, кількість пунктів fi_N_M]
 };
+if (typeof CHANGELOG !== 'undefined' && Array.isArray(CHANGELOG) && CHANGELOG[0] && CHANGELOG[0].v) WN.v = String(CHANGELOG[0].v);   // версія з файлу changelog.js
 function wnShow() {
-  const dt = new Date(WN.date + 'T00:00:00'), ds = new Intl.DateTimeFormat(LANG, { day: 'numeric', month: 'long', year: 'numeric' }).format(dt);
-  const box = $('#wn-b'), last = el('section', 'wl');
-  const lh = el('div', 'wlh'); lh.append(el('b', null, L('wn_last')), el('span', 'wd', ds + ' · ' + L('wn_ver', WN.v)));
-  const ul = el('ul'); WN.last.forEach(k => ul.append(el('li', null, L(k)))); last.append(lh, ul);
+  const box = $('#wn-b'), cl = typeof CHANGELOG !== 'undefined' && Array.isArray(CHANGELOG) && CHANGELOG.length ? CHANGELOG : null;
+  const T = x => x && typeof x === 'object' && !Array.isArray(x) ? (x[LANG] || x.uk || x.en || '') : (x == null ? '' : String(x));
+  const fmt = d => { try { return new Intl.DateTimeFormat(LANG, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(d + 'T00:00:00')); } catch { return d || ''; } };
+  const cards = [];
+  if (cl) cl.forEach((e, n) => {
+    const c = el('section', 'wl' + (n ? ' wold' : '')), lh = el('div', 'wlh');
+    if (!n) lh.append(el('b', null, L('wn_last')));
+    lh.append(el('span', 'wd', fmt(e.d) + (e.v ? ' · ' + L('wn_ver', e.v) : '')));
+    const ul = el('ul');
+    (e.items || []).forEach(it => { const li = el('li'); if (Array.isArray(it)) { li.append(el('b', null, T(it[0]) + ': '), document.createTextNode(T(it[1]))); } else li.textContent = T(it); ul.append(li); });
+    c.append(lh, ul);
+    if (e.fixes && e.fixes.length) { const dt = el('details', 'wfx'), sm = el('summary', null, L(e.fixes.length === 1 ? 'wn_fix1' : (LANG === 'uk' && e.fixes.length % 10 >= 2 && e.fixes.length % 10 <= 4 && (e.fixes.length % 100 < 12 || e.fixes.length % 100 > 14)) ? 'wn_fix2' : 'wn_fix', e.fixes.length)), fu = el('ul'); e.fixes.forEach(f => fu.append(el('li', null, T(f)))); dt.append(sm, fu); c.append(dt); }
+    cards.push(c);
+  });
+  else {
+    const dt = new Date(WN.date + 'T00:00:00'), last = el('section', 'wl'), lh = el('div', 'wlh');
+    lh.append(el('b', null, L('wn_last')), el('span', 'wd', fmt(WN.date) + ' · ' + L('wn_ver', WN.v)));
+    const ul = el('ul'); WN.last.forEach(k => ul.append(el('li', null, L(k)))); last.append(lh, ul); cards.push(last);
+  }
   const all = el('div', 'wa'); all.append(el('h3', null, L('wn_all')));
   const grid = el('div', 'wg');
   WN.blocks.forEach(([k, cat, n], i) => {
@@ -538,7 +554,7 @@ function wnShow() {
     for (let m = 1; m <= n; m++) u.append(el('li', null, L('fi_' + (i + 1) + '_' + m)));
     c.append(h, u); grid.append(c);
   });
-  all.append(grid); box.replaceChildren(last, all);
+  all.append(grid); box.replaceChildren(...cards, all);
   if (!$('#wn').open) { $('#wn').showModal(); box.scrollTop = 0; }
 }
 const wnClose = () => { $('#wn').close(); document.body.classList.remove('wnew'); if (D.sv !== WN.v) { D.sv = WN.v; save(); } };
