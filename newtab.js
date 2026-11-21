@@ -771,11 +771,11 @@ const secOrder = secs => { const po = D.po || [], pos = s => { const i = po.inde
 const CI = p => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const CATS = [
   ['cat_main', 's_lang s_ui s_data s_reset', CI('<path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>')],
-  ['cat_tiles', 's_tpl s_tiles s_icons s_titles s_wpre s_wlay s_wcurve s_whover s_lp', CI('<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>')],
+  ['cat_tiles', 's_tpl s_tiles s_icons s_titles s_wpre s_wlay s_wcurve s_whover', CI('<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>')],
   ['cat_look', 's_themes s_bg', CI('<path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-1 1.6-2.2-.5-1.3.3-2.3 1.6-2.3H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>')],
   ['cat_fx', 's_tilt s_pulse s_neon', CI('<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>')],
   ['cat_nav', 's_tabs s_search', CI('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>')],
-    ['cat_profile', 's_name s_cd s_alock s_hist s_panic s_prot', CI('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')]
+    ['cat_profile', 's_name s_cd s_alock s_hist s_panic s_prot s_lp', CI('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')]
 ];
 function catBuild() {
   const nav = $('#pnav'); nav.replaceChildren(...CATS.map(([k, , svg], i) => { const b = el('div', 'cb'); b.role = 'tab'; b.tabIndex = 0; b.dataset.c = i; b.innerHTML = svg; const sp = el('span'); sp.dataset.i18n = k; sp.textContent = L(k); b.append(sp); return b; }));
@@ -1776,7 +1776,8 @@ $('#pth-l').onclick = () => { D.s.pth = 'light'; setPth(); save(); };
 /* ---------- Оновлення без перевстановлення: нові файли пишуться прямо в папку розширення, дані в chrome.storage лишаються ---------- */
 const idb = (m, k, v) => new Promise((res, rej) => { const o = indexedDB.open('sdupd', 1); o.onupgradeneeded = () => o.result.createObjectStore('s'); o.onerror = () => rej(o.error); o.onsuccess = () => { try { const s = o.result.transaction('s', m === 'get' ? 'readonly' : 'readwrite').objectStore('s'); const q = m === 'get' ? s.get(k) : m === 'set' ? s.put(v, k) : s.delete(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); } catch (e) { rej(e); } }; });
 const updMark = v => document.body.classList.toggle('upd', !!v);
-chrome.storage.local.get(['updv', 'updt']).then(r => { updMark(r.updv); if (Date.now() - (r.updt || 0) > 36e5) chrome.runtime.sendMessage({ t: 'upd-check' }).catch(() => { }); });
+const updPoll = () => chrome.storage.local.get(['updv', 'updt']).then(r => { updMark(r.updv); if (Date.now() - (r.updt || 0) > 6e5) chrome.runtime.sendMessage({ t: 'upd-check' }).catch(() => { }); });
+updPoll(); document.addEventListener('visibilitychange', () => { if (!document.hidden) updPoll(); });   // повернулися на вкладку — перевіряємо, чи не вийшла нова версія
 chrome.storage.onChanged.addListener((c, a) => { if (a === 'local' && c.updv) updMark(c.updv.newValue); });
 let updBusy = false;
 async function updRun() {
@@ -1805,7 +1806,9 @@ async function updRun() {
       const w = await (await d.getFileHandle(name, { create: true })).createWritable(); await w.write(blob); await w.close();
     }
     await chrome.storage.local.remove('updv');
-    await mxAlert(L('upd_ok', v)); chrome.runtime.reload();
+    await mxAlert(L('upd_ok', v));
+    try { const tb = await chrome.tabs.getCurrent(); await chrome.storage.local.set({ updre: tb ? tb.id : 0 }); } catch (e) { }
+    chrome.runtime.reload();
   } catch (e) {
     if (e && e.name === 'AbortError') { /* користувач закрив вибір папки */ } else await mxAlert(L(e && e.message === 'wrong' ? 'upd_wrong' : 'upd_fail'));
   }

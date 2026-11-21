@@ -129,10 +129,18 @@ async function updCheck() {
   try {
     const r = await fetch(UPD_BASE + 'manifest.json?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) return null;
     const m = await r.json(), v = vNew(m.version, chrome.runtime.getManifest().version) ? m.version : '';
-    await chrome.storage.local.set({ updv: v, updt: Date.now() }); return v;
+    await chrome.storage.local.set({ updv: v, updt: Date.now() });
+    try { chrome.action.setBadgeText({ text: v ? '↑' : '' }); if (v) chrome.action.setBadgeBackgroundColor({ color: '#22c55e' }); } catch (e) { }   // значок на панелі браузера теж сповіщає про оновлення
+    return v;
   } catch (e) { return null; }
 }
-const updSched = async () => { if (!(await chrome.alarms.get('upd'))) chrome.alarms.create('upd', { delayInMinutes: 1, periodInMinutes: 360 }); updCheck(); };
+const updSched = async () => { const a = await chrome.alarms.get('upd'); if (!a || a.periodInMinutes !== 15) chrome.alarms.create('upd', { delayInMinutes: 1, periodInMinutes: 15 }); updCheck(); };   // раз на 15 хв — маленький запит
 chrome.alarms.onAlarm.addListener(a => { if (a.name === 'upd') updCheck(); });
 chrome.runtime.onStartup.addListener(updSched); chrome.runtime.onInstalled.addListener(updSched);
 chrome.runtime.onMessage.addListener((m, s, send) => { if (m && m.t === 'upd-check') { updCheck().then(send); return true; } });
+
+/* після оновлення Chrome показує стандартну нову вкладку — повертаємо в неї наше розширення */
+chrome.storage.local.get('updre').then(async r => {
+  if (!r.updre) return; await chrome.storage.local.remove('updre');
+  try { await chrome.tabs.update(r.updre, { url: chrome.runtime.getURL('newtab.html') }); } catch (e) { }
+});

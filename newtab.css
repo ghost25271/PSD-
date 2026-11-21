@@ -1243,7 +1243,7 @@ body[data-pth=light] input[type=checkbox]:not(.swx):focus-visible,#panel[data-th
 #panel #pm-st{margin:6px 0 0;font-weight:600}
 #panel #pm-now:disabled{opacity:.4;pointer-events:none}
 
-#panel h3[data-pro]{min-height:34px;background:url(icons/premium.webp) no-repeat right 30px center/116px auto}
+#panel h3[data-pro]{min-height:34px;background:url(icons/premium.webp) no-repeat right 30px center/132px auto}
 
 #updbtn{position:absolute;left:64px;top:8px;width:40px;height:40px;padding:0;display:grid;place-items:center;border:0;border-radius:50%;color:#fff;background:rgba(255,255,255,.1);cursor:pointer;transition:background .2s,box-shadow .2s;opacity:.7}
 #updbtn:hover{background:rgba(255,255,255,.25);opacity:1}
