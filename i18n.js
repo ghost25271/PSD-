@@ -544,6 +544,8 @@ const TR = {
   lp_fix: ["Нова адреса", "Use new URL", "Nuovo URL", "Neue URL", "Nouvelle URL", "Nueva URL", "新URLに更新", "Nieuwe URL"],
   lp_rm: ["Видалити", "Delete", "Elimina", "Löschen", "Supprimer", "Eliminar", "削除", "Verwijderen"],
   lp_del: ["Видалити плитку «{0}»?", "Delete the tile “{0}”?", "Eliminare la tessera «{0}»?", "Kachel „{0}“ löschen?", "Supprimer la tuile « {0} » ?", "¿Eliminar el mosaico «{0}»?", "タイル「{0}」を削除しますか？", "Tegel “{0}” verwijderen?"],
+  upd_n: ["Доступне оновлення", "Update available", "Aggiornamento disponibile", "Update verfügbar", "Mise à jour disponible", "Actualización disponible", "アップデートあり", "Update beschikbaar"],
+  upd_n2: ["Версія {0} · натисніть, щоб оновити", "Version {0} · click to update", "Versione {0} · clicca per aggiornare", "Version {0} · zum Aktualisieren klicken", "Version {0} · cliquez pour mettre à jour", "Versión {0} · haz clic para actualizar", "バージョン{0} · クリックして更新", "Versie {0} · klik om bij te werken"],
   wn_t: ["Що нового", "What’s new", "Novità", "Neuigkeiten", "Nouveautés", "Novedades", "新機能", "Wat is er nieuw"],
   wn_ok: ["Зрозуміло", "Got it", "Ho capito", "Verstanden", "Compris", "Entendido", "了解", "Begrepen"],
   cd_one: ["Таймер дня можна додати лише один", "Only one daily timer is allowed", "È consentito un solo timer giornaliero", "Es ist nur ein Tagestimer erlaubt", "Un seul minuteur du jour est autorisé", "Solo se permite un temporizador del día", "1日タイマーは1つだけ追加できます", "Er is maar één dagtimer toegestaan"],

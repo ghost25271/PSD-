@@ -1775,8 +1775,13 @@ $('#pth-l').onclick = () => { D.s.pth = 'light'; setPth(); save(); };
 
 /* ---------- Оновлення без перевстановлення: нові файли пишуться прямо в папку розширення, дані в chrome.storage лишаються ---------- */
 const idb = (m, k, v) => new Promise((res, rej) => { const o = indexedDB.open('sdupd', 1); o.onupgradeneeded = () => o.result.createObjectStore('s'); o.onerror = () => rej(o.error); o.onsuccess = () => { try { const s = o.result.transaction('s', m === 'get' ? 'readonly' : 'readwrite').objectStore('s'); const q = m === 'get' ? s.get(k) : m === 'set' ? s.put(v, k) : s.delete(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); } catch (e) { rej(e); } }; });
-const updMark = v => document.body.classList.toggle('upd', !!v);
-const updPoll = () => chrome.storage.local.get(['updv', 'updt']).then(r => { updMark(r.updv); if (Date.now() - (r.updt || 0) > 6e5) chrome.runtime.sendMessage({ t: 'upd-check' }).catch(() => { }); });
+var updX = '', updV = '';
+const updMark = v => {
+  updV = v || ''; document.body.classList.toggle('upd', !!v);
+  const n = $('#upn'); n.hidden = !v || updX === v;
+  if (v) { $('#upn-t').textContent = L('upd_n'); $('#upn-s').textContent = L('upd_n2', v); }
+};
+const updPoll = () => chrome.storage.local.get(['updv', 'updt', 'updx']).then(r => { updX = r.updx || ''; updMark(r.updv); if (Date.now() - (r.updt || 0) > 6e5) chrome.runtime.sendMessage({ t: 'upd-check' }).catch(() => { }); });
 updPoll(); document.addEventListener('visibilitychange', () => { if (!document.hidden) updPoll(); });   // повернулися на вкладку — перевіряємо, чи не вийшла нова версія
 chrome.storage.onChanged.addListener((c, a) => { if (a === 'local' && c.updv) updMark(c.updv.newValue); });
 let updBusy = false;
@@ -1815,6 +1820,7 @@ async function updRun() {
   updBusy = false; document.body.classList.remove('updb');
 }
 $('#updbtn').onclick = updRun;
+$('#upn').onclick = e => { if (e.target.id === 'upn-x') { updX = updV; chrome.storage.local.set({ updx: updV }).catch(() => { }); $('#upn').hidden = true; } else updRun(); };
 
 /* ---------- «Пульс»: сканує посилання плиток — мертві, переїхали, повільні, припарковані домени ---------- */
 var PLS = { t: 0, r: {} };   // var: плитки можуть малюватися ще до цього рядка

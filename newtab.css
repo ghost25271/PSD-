@@ -1275,3 +1275,16 @@ body.updb #updbtn svg{animation:updr 1s linear infinite}
 #bl .lpr .lpa button{margin:0;width:auto;height:auto;opacity:1;padding:3px 9px;border:1px solid rgba(0,255,65,.5);border-radius:4px;line-height:1.3}
 #bl .lpr:hover .lpa button{opacity:1}
 #bl .lpr .lpa button:hover{background:#00ff41;color:#001a06}
+
+#upn{position:fixed;left:16px;top:62px;z-index:45;max-width:260px;padding:9px 30px 9px 12px;border:1px solid rgba(0,255,65,.75);border-radius:6px;background:rgba(0,14,5,.93);color:#00ff41;font-family:"Courier New",Consolas,monospace;cursor:pointer;box-shadow:0 0 16px rgba(0,255,65,.4),inset 0 0 12px rgba(0,255,65,.08);animation:upnin .35s ease-out}
+#upn[hidden]{display:none}
+#upn .upk{display:block;font-size:10px;letter-spacing:.18em;opacity:.65}
+#upn b{display:block;margin-top:3px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;text-shadow:0 0 8px rgba(0,255,65,.8);white-space:nowrap;overflow:hidden;animation:upnt 1s steps(22) .2s both}
+#upn b::after{content:"_";margin-left:2px;animation:upnb 1s steps(1) infinite}
+#upn small{display:block;margin-top:4px;font-size:11px;opacity:.75}
+#upn:hover{background:rgba(0,40,12,.95);box-shadow:0 0 22px rgba(0,255,65,.65),inset 0 0 12px rgba(0,255,65,.12)}
+#upn #upn-x{position:absolute;right:6px;top:6px;width:18px;height:18px;padding:0;border:0;border-radius:3px;background:transparent;color:#00ff41;font:inherit;font-size:14px;line-height:1;cursor:pointer;opacity:.6}
+#upn #upn-x:hover{opacity:1;background:#ff3b3b;color:#fff}
+@keyframes upnin{from{opacity:0;transform:translateY(-6px)}}
+@keyframes upnt{from{max-width:0}to{max-width:260px}}
+@keyframes upnb{50%{opacity:0}}
