@@ -84,6 +84,12 @@
       <div class="pmr" data-show="prm"><button type="button" id="pm-code" data-show="pmt=real" data-i18n="pm_code"></button><button type="button" id="pm-now" data-i18n="pm_now"></button></div>
       <p class="hint" id="pm-st" data-show="prm&pmt=real"></p>
     </section>
+    <section><h3 data-i18n="s_lp"></h3>
+      <p class="hint" data-i18n="lp_d"></p>
+      <label><span data-i18n="lp_w"></span> <select data-k="lpw" data-seg data-lbl="lp_w_"><option value="m"></option><option value="7"></option><option value="30"></option></select></label>
+      <label class="chk"><input type="checkbox" data-k="lpb"> <span data-i18n="lp_b"></span></label>
+      <div class="pmr"><button type="button" id="lp-scan" data-i18n="lp_scan"></button><button type="button" id="lp-res"></button></div>
+    </section>
     <section><h3 data-i18n="s_themes"></h3>
       <select id="theme" class="wide"></select>
       <div class="row"><button type="button" id="th-save" data-i18n="th_save"></button><button type="button" id="th-del" data-i18n="delete"></button></div>
@@ -290,6 +296,7 @@
   <div class="blh"><span class="blk">// CLASSIFIED</span><button type="button" id="bl-x" data-i18n-title="close">✕</button></div>
   <h2 data-i18n="hc_sites"></h2>
   <div class="bls"><span id="bl-n"></span><span id="bl-s"></span></div>
+  <div id="bl-f" hidden></div>
   <div id="bl-g"></div>
 </dialog>
 <dialog id="dn">

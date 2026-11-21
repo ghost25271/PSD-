@@ -21,7 +21,7 @@ const DEF = () => ({
     neon: true, nc: '#000000', nt: 2, nb: 'off', tr: 8, trv: 2, tg: 18, tcl: '#ff5900',
     pe: true, pm: 'ripple', ps: 4, pq: 'linear', pd: 'normal', pz: 18, pt: 2, pk: 1, pl: 40, pg: 6, pi: 1, pc: '#ea430b', pr: false, prv: 10,
     tilt: true, tm: 10, ts: 1.03, glare: true, rm: false, ta: true,
-    sb: true, st: true, pnc: true, prm: false, pmt: 'fake', pmi: '5', hc: false, hcp: '24', hcw: 'm', hs: false, hsw: 'm', hcl: [], pth: 'dark', lay: 'cat', pcat: 0, pop: 0, pcs: 0, pbs: 0, pob: -1,  sw: 560, sn: false, se: 'google', lang: 'auto',
+    sb: true, st: true, pnc: true, prm: false, lpw: 'm', lpb: true, pmt: 'fake', pmi: '5', hc: false, hcp: '24', hcw: 'm', hs: false, hsw: 'm', hcl: [], pth: 'dark', lay: 'cat', pcat: 0, pop: 0, pcs: 0, pbs: 0, pob: -1,  sw: 560, sn: false, se: 'google', lang: 'auto',
     tpl: 'flat', sc: 100, wver: 5, ic: 'google', icv: true, ics: 25, icl: 24, icver: 2, tpb: 'flat', ...WALL_DEF },
   p: [{ id: 'p1', name: L('p_home'), t: [mk('YouTube', 'https://www.youtube.com'), mk(L('eng_wiki'), 'https://' + LANG + '.wikipedia.org'), mk('GitHub', 'https://github.com'),
     mk('Alerts', 'https://alerts.in.ua/'), mk('VirusTotal', 'https://www.virustotal.com/gui/home/upload'), mk('DeepL', 'https://www.deepl.com/uk/translator'), mk('Old.m.ua', 'https://old.m.ua/ua/'), mk('Facebook', 'https://www.facebook.com/?locale=uk_UA'),
@@ -88,7 +88,7 @@ function splitPages(d) {
     limHit = 1;
   }
 }
-const NOSTYLE = new Set(['un', 'uns', 'unc', 'unz', 'cds', 'cd', 'al', 'alm', 'pnc', 'prm', 'pmt', 'pmi', 'hc', 'hcp', 'hcw', 'hs', 'hsw', 'hcv', 'hcv2', 'hcl', 'pob', 'pth', 'lay', 'lv2', 'pcat', 'pop', 'pcs', 'pbs', 'w', 'h', 'gap', 'fs', 'tfs', 'foy', 'titles', 'tsh', 'cf', 'bi', 'rm', 'sb', 'sw', 'sn', 'se', 'st', 'lang', 'ic', 'ics', 'icp', 'tpb', 'sc', 'wver', 'wsc', 'wgap']);
+const NOSTYLE = new Set(['un', 'uns', 'unc', 'unz', 'cds', 'cd', 'al', 'alm', 'pnc', 'prm', 'lpw', 'lpb', 'pmt', 'pmi', 'hc', 'hcp', 'hcw', 'hs', 'hsw', 'hcv', 'hcv2', 'hcl', 'pob', 'pth', 'lay', 'lv2', 'pcat', 'pop', 'pcs', 'pbs', 'w', 'h', 'gap', 'fs', 'tfs', 'foy', 'titles', 'tsh', 'cf', 'bi', 'rm', 'sb', 'sw', 'sn', 'se', 'st', 'lang', 'ic', 'ics', 'icp', 'tpb', 'sc', 'wver', 'wsc', 'wgap']);
 const styleKeys = () => Object.keys(DEF().s).filter(k => !NOSTYLE.has(k));
 const stylePick = s => { const o = {}; styleKeys().forEach(k => o[k] = s[k]); return o; };
 const PRESETS = {
@@ -608,7 +608,7 @@ function hcAdd() {
 /* вікно зі списком сайтів — у стилі «матриці» */
 const BL = $('#bl');
 function blDraw() {
-  const a = D.s.hcl || [], on = !!D.s.hs, g = $('#bl-g');
+  const a = D.s.hcl || [], on = !!D.s.hs, g = $('#bl-g'); BL.dataset.m = ''; $('#bl .blk').textContent = '// CLASSIFIED'; $('#bl-f').hidden = true; { const h2 = $('#bl h2'); h2.dataset.i18n = 'hc_sites'; h2.textContent = L('hc_sites'); }
   $('#bl-n').textContent = L('hc_tot') + ': ' + a.length; $('#bl-s').textContent = L(on ? 'hc_act' : 'hc_pau'); $('#bl-s').className = on ? 'on' : 'off';
   g.replaceChildren(...(a.length ? a.map((h, i) => { const r = el('div', 'blr'), n = el('b', null, '#' + String(i + 1).padStart(3, '0')), t = el('span', 'blt', h), s = el('i', on ? 'on' : 'off', '— ' + L(on ? 'hc_act' : 'hc_pau')), x = el('button', null, '×'); x.type = 'button'; x.title = L('delete'); x.onclick = () => { D.s.hcl = a.filter(q => q !== h); hcList(); blDraw(); save(); hcSync(); }; r.append(n, t, s, x); return r; }) : [el('div', 'blz', L('hc_empty'))]));
 }
@@ -771,7 +771,7 @@ const secOrder = secs => { const po = D.po || [], pos = s => { const i = po.inde
 const CI = p => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const CATS = [
   ['cat_main', 's_lang s_ui s_data s_reset', CI('<path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>')],
-  ['cat_tiles', 's_tpl s_tiles s_icons s_titles s_wpre s_wlay s_wcurve s_whover', CI('<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>')],
+  ['cat_tiles', 's_tpl s_tiles s_icons s_titles s_wpre s_wlay s_wcurve s_whover s_lp', CI('<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>')],
   ['cat_look', 's_themes s_bg', CI('<path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-1 1.6-2.2-.5-1.3.3-2.3 1.6-2.3H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>')],
   ['cat_fx', 's_tilt s_pulse s_neon', CI('<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>')],
   ['cat_nav', 's_tabs s_search', CI('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>')],
@@ -929,6 +929,7 @@ function mkTile(t) {
     const p = el('div', 'fp'); t.t.slice(0, 4).forEach(c => p.append(favImg(c.url, c.title))); i.append(p);
   } else i.append(favImg(t.url, t.title));
   a.append(i, el('span', 'tt', t.title));
+  { const lr = lpOf(t); if (lr && D.s.lpb !== false && (lr.s === 'dead' || lr.s === 'err' || lr.s === 'parked')) { const d = el('div', 'lpd ' + lr.s); d.title = L('lp_s_' + lr.s); a.append(d); } }
   if (t.pin) { const pn = el('div', 'pin'); pn.title = L('m_pinned'); pn.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M16 3l5 5-2 1-3.5 3.5.7 4.3-1.4 1.4-3.6-3.6L7 20l-1-1 4.4-4.7L6.8 10.7l1.4-1.4 4.3.7L16 6.5z"/></svg>'; a.append(pn); }
   if (sc === 'shot' && !f) { const lg = el('div', 'logo'); lg.append(favImg(t.url, t.title, Math.min(curH * D.s.icl / 100, 96))); a.append(lg); }   // логотип сайту завжди видно
   return a;
@@ -1811,3 +1812,85 @@ async function updRun() {
   updBusy = false; document.body.classList.remove('updb');
 }
 $('#updbtn').onclick = updRun;
+
+/* ---------- «Пульс»: сканує посилання плиток — мертві, переїхали, повільні, припарковані домени ---------- */
+var PLS = { t: 0, r: {} };   // var: плитки можуть малюватися ще до цього рядка
+const lpOf = t => { const x = PLS.r[t.id]; return x && x.u === t.url ? x : null; };
+const lpSkip = u => { try { const o = new URL(u), h = o.hostname; return !/^https?:$/.test(o.protocol) || h === 'localhost' || !h.includes('.') || /\.(local|lan|internal|home|corp)$/.test(h) || /^(10\.|127\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h) || h.startsWith('['); } catch { return true; } };
+const lpReg = h => h.replace(/^www\./, '').split('.').slice(-2).join('.');
+const LP_AUTH = /login|signin|sign-in|auth|sso|account|oauth|consent|verify|session|captcha|cookie|continue=|redirect|return/i;
+const LP_PARK = /domain (is |may be |name )?(for sale|parked|available)|buy this domain|this domain (name )?(is|may be) (for sale|available)|parked (free|domain|page)|sedoparking|hugedomains|afternic|домен (продається|продаж)/i;
+async function lpOne(u) {
+  const once = async () => {
+    const ac = new AbortController(), tm = setTimeout(() => ac.abort(), 8000), t0 = performance.now();
+    try {
+      const r = await fetch(u, { signal: ac.signal, cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer', redirect: 'follow' });
+      const o = { c: r.status, ms: Math.round(performance.now() - t0) };
+      if (r.redirected && r.url && r.url !== u) o.to = r.url;
+      let body = '', done = false;
+      if (r.ok && r.body && /html/i.test(r.headers.get('content-type') || '')) {   // читаємо лише початок сторінки, щоб не вантажити зайвого
+        const rd = r.body.getReader(), td = new TextDecoder(); let n = 0;
+        while (n < 30000) { const x = await rd.read(); if (x.done) { done = true; break; } n += x.value.length; body += td.decode(x.value, { stream: true }); }
+        rd.cancel().catch(() => { });
+      } else if (r.body) r.body.cancel().catch(() => { });
+      o.park = done && body.length < 30000 && LP_PARK.test(body);
+      return o;
+    } finally { clearTimeout(tm); }
+  };
+  let o; try { o = await once(); } catch { await new Promise(r => setTimeout(r, 1500)); try { o = await once(); } catch { o = { c: 0, ms: 0 }; } }   // одна повторна спроба, щоб не лякати хибними «мертвими»
+  const x = { u, c: o.c, ms: o.ms };
+  if (!o.c || o.c === 404 || o.c === 410) x.s = 'dead';
+  else if (o.c >= 500) x.s = 'err';
+  else if (o.park) x.s = 'parked';
+  else {
+    x.s = 'ok';
+    if (o.to) { try { const a = new URL(u), b = new URL(o.to); if (lpReg(a.hostname) !== lpReg(b.hostname) && !LP_AUTH.test(b.hostname + b.pathname + b.search)) { x.s = 'moved'; x.to = o.to; } } catch { } }
+    if (x.s === 'ok' && o.ms > 3500) x.s = 'slow';
+  }
+  return x;
+}
+const lpAll = () => walk(D.p.flatMap(p => p.t)).filter(t => !t.folder && t.url && !lpSkip(t.url));
+const lpProb = () => lpAll().filter(t => { const r = lpOf(t); return r && ['dead', 'err', 'parked', 'moved'].includes(r.s); });
+function lpBtn(txt) { const b = $('#lp-res'); if (!b) return; const n = PLS.t ? lpProb().length : 0; b.textContent = txt || (PLS.t ? L('lp_resn', n) : L('lp_res')); b.classList.toggle('bad', !txt && n > 0); }
+let lpBusy = false;
+async function lpScan(quiet) {
+  if (lpBusy) return; if (!navigator.onLine) { if (!quiet) mxAlert(L('lp_off')); return; }
+  const ts = lpAll(); if (!ts.length) { if (!quiet) mxAlert(L('lp_empty')); return; }
+  lpBusy = true; $('#lp-scan').disabled = true;
+  const urls = [...new Set(ts.map(t => t.url))], res = new Map(); let n = 0, i = 0;
+  const upd = () => { const s = L('lp_run', n, urls.length); lpBtn(s); if (BL.open && BL.dataset.m === 'lp') $('#bl-s').textContent = s; };
+  upd();
+  const worker = async () => { while (i < urls.length) { const u = urls[i++]; res.set(u, await lpOne(u)); n++; upd(); } };
+  await Promise.all(Array.from({ length: quiet ? 2 : 5 }, worker));
+  const r = {}; for (const t of ts) { const x = res.get(t.url); if (x) r[t.id] = { ...x }; }
+  PLS = { t: Date.now(), r }; try { chrome.storage.local.set({ lp: PLS }); } catch { }
+  lpBusy = false; $('#lp-scan').disabled = false; lpBtn(); redraw(); if (BL.open && BL.dataset.m === 'lp') lpDraw();
+}
+const holderOf = t => { for (const p of D.p) { if (p.t.includes(t)) return p; for (const f of p.t) if (f.folder && f.t.includes(t)) return f; } return null; };
+let lpF = 'p';
+function lpDraw() {
+  BL.dataset.m = 'lp'; $('#bl .blk').textContent = '// PULSE'; const h2 = $('#bl h2'); h2.dataset.i18n = 's_lp'; h2.textContent = L('s_lp');
+  const ord = ['dead', 'err', 'parked', 'moved', 'slow', 'ok'], cnt = {}, rows = [];
+  for (const t of lpAll()) { const r = lpOf(t); if (!r) continue; cnt[r.s] = (cnt[r.s] || 0) + 1; if (lpF === 'a' || ['dead', 'err', 'parked', 'moved'].includes(r.s)) rows.push([t, r]); }
+  rows.sort((a, b) => ord.indexOf(a[1].s) - ord.indexOf(b[1].s));
+  $('#bl-n').textContent = PLS.t ? L('lp_last', new Date(PLS.t).toLocaleString(/^[a-z]{2}/i.test(D.s.lang || '') && D.s.lang !== 'auto' ? D.s.lang : undefined, { dateStyle: 'medium', timeStyle: 'short' })) : L('lp_never');
+  $('#bl-s').textContent = lpBusy ? L('lp_run', 0, 0) : ord.filter(k => cnt[k]).map(k => L('lp_s_' + k) + ' ' + cnt[k]).join(' · '); $('#bl-s').className = '';
+  const f = $('#bl-f'); f.hidden = false;
+  f.replaceChildren(...[['p', 'lp_f_p'], ['a', 'lp_f_a']].map(([k, tk]) => { const b = el('button', 'lpf' + (lpF === k ? ' on' : ''), L(tk)); b.type = 'button'; b.onclick = () => { lpF = k; lpDraw(); }; return b; }));
+  const g = $('#bl-g');
+  if (!rows.length) { g.replaceChildren(el('div', 'blr', PLS.t ? L('lp_none') : L('lp_never'))); return; }
+  g.replaceChildren(...rows.map(([t, r]) => {
+    const row = el('div', 'blr lpr'), st = el('b', 'lps ' + r.s, L('lp_s_' + r.s)), nm = el('span', 'blt');
+    let host = r.u; try { host = new URL(r.u).hostname; } catch { }
+    nm.append(el('span', 'lpn', t.title || host), el('small', null, host + (r.c ? ' · ' + r.c : '') + (r.ms ? ' · ' + r.ms + ' ms' : '') + (r.to ? ' → ' + r.to : '')));
+    const ac = el('span', 'lpa'), bt = (k, fn) => { const b = el('button', null, L(k)); b.type = 'button'; b.onclick = fn; ac.append(b); };
+    const op = el('a', null, L('lp_open')); op.href = r.u; op.target = '_blank'; op.rel = 'noopener'; ac.append(op);
+    if (r.to) bt('lp_fix', () => { t.url = r.to; delete PLS.r[t.id]; try { chrome.storage.local.set({ lp: PLS }); } catch { } redraw(); save(); lpBtn(); lpDraw(); });
+    bt('lp_rm', async () => { if (!(await mx(L('lp_del', t.title)))) return; const h = holderOf(t); if (h) { delTile(t, h); lpBtn(); lpDraw(); } });
+    row.append(st, nm, ac); return row;
+  }));
+}
+$('#lp-scan').onclick = () => lpScan(false);
+$('#lp-res').onclick = () => { lpDraw(); BL.showModal(); };
+chrome.storage.local.get('lp').then(x => { if (x.lp && x.lp.r) PLS = x.lp; lpBtn(); redraw(); }).catch(() => { });
+setTimeout(() => { const d = { 7: 7, 30: 30 }[D && D.s && D.s.lpw]; if (d && Date.now() - PLS.t > d * 864e5 && !document.hidden) lpScan(true); }, 9000);
