@@ -1309,3 +1309,49 @@ body.updb #updbtn svg{animation:updr 1s linear infinite}
 #wn .wfx[open] summary::before{transform:rotate(90deg)}
 #wn .wfx ul{margin-top:8px}
 #wn .wl.wold .wlh{margin-bottom:8px}
+
+/* «Що нового» — спокійний список змін у стилі журналу оновлень */
+#wn{width:min(720px,94vw);max-height:86vh;padding:0;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:#171717;color:#e8e8e8;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 18px 60px rgba(0,0,0,.65)}
+#wn::backdrop{background:rgba(0,0,0,.6);backdrop-filter:none}
+#wn .wh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 26px 6px;border:0;color:#fff}
+#wn h2{margin:0;flex:none;font-size:23px;font-style:italic;font-weight:800;color:#b6f27a}
+#wn #wn-ok{padding:6px 2px;border:0;border-radius:0;background:none;box-shadow:none;font:inherit;font-size:14px;font-weight:500;color:#e8e8e8;cursor:pointer}
+#wn #wn-ok:hover{color:#b6f27a;box-shadow:none;text-decoration:underline}
+#wn-b{padding:6px 26px 22px;overflow:auto;scrollbar-width:thin;scrollbar-color:#555 transparent}
+#wn .wl,#wn .wl.wold{margin:0 0 22px;padding:0;border:0;border-radius:0;background:none}
+#wn .wl h3{margin:14px 0 10px;font-size:18px;font-style:italic;font-weight:800;color:#b6f27a}
+#wn .wl h3 small{margin-left:10px;font-size:12px;font-style:normal;font-weight:500;color:rgba(255,255,255,.45)}
+#wn .wl ul{margin:0;padding-left:22px;list-style:disc;display:flex;flex-direction:column;gap:9px}
+#wn .wl li{padding:0;font-size:14px;line-height:1.5;color:#e4e4e4}
+#wn .wl li::before{display:none}
+#wn .wl li::marker{color:#e4e4e4}
+#wn .wl li b{font-style:italic;font-weight:800;color:#fff}
+#wn .wfx{margin-top:12px}
+#wn .wfx summary{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;font-style:italic;font-weight:700;color:#b6f27a;list-style:none}
+#wn .wfx summary::before{content:'›';font-style:normal;font-size:20px;line-height:1;transition:transform .15s}
+#wn .wfx[open] summary::before{transform:rotate(90deg)}
+#wn .wfx ul{margin-top:10px}
+#wn #wn-ok:focus,#wn #wn-ok:focus-visible{outline:0}
+
+/* «Що нового» — зелений градієнт, великі дати та рукописна стрілка */
+#wn{border:1px solid rgba(120,255,170,.4);background:radial-gradient(120% 90% at 85% 0%,rgba(52,211,110,.5),transparent 60%),linear-gradient(145deg,#06231a 0%,#0a3d29 52%,#0e6a3c 100%);color:#eafff3;box-shadow:0 22px 70px rgba(0,0,0,.6),0 0 40px rgba(34,197,94,.25)}
+#wn h2{display:flex;align-items:center;gap:6px;font-size:30px;font-weight:800;font-style:italic;color:#fff;letter-spacing:.01em;text-shadow:0 2px 14px rgba(120,255,170,.35)}
+#wn h2 .wa{color:#b6f27a;margin-top:10px;transform:rotate(-4deg)}
+#wn .wh{padding:20px 28px 10px}
+#wn #wn-ok{padding:6px 14px;border:1px solid rgba(182,242,122,.5);border-radius:999px;color:#eafff3;background:rgba(0,0,0,.18)}
+#wn #wn-ok:hover{background:#b6f27a;color:#06231a;text-decoration:none;box-shadow:0 0 18px rgba(182,242,122,.6)}
+#wn-b{padding:4px 28px 24px;scrollbar-color:rgba(182,242,122,.5) transparent}
+#wn .wl,#wn .wl.wold{display:grid;grid-template-columns:104px 1fr;gap:6px 22px;margin:0 0 14px;padding:16px 18px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(0,20,10,.38);backdrop-filter:blur(4px)}
+#wn .wl:first-child{border-color:rgba(182,242,122,.45);box-shadow:0 0 22px rgba(52,211,110,.2)}
+#wn .wdt{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+#wn .wdt b{font-size:46px;line-height:1;font-weight:800;color:#fff;font-style:italic;text-shadow:0 2px 14px rgba(120,255,170,.4)}
+#wn .wdt span{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,.7)}
+#wn .wdt small{margin:6px 0 0;padding:2px 9px;border-radius:999px;border:1px solid rgba(182,242,122,.5);font-size:11px;font-weight:600;color:#c8f7a0;background:rgba(0,0,0,.25)}
+#wn .wr{min-width:0}
+#wn .wl ul{padding-left:18px;gap:8px}
+#wn .wl li{color:#eafff3}
+#wn .wl li::marker{color:#4ade80}
+#wn .wl li b{color:#fff}
+#wn .wfx summary{color:#b6f27a}
+#wn .wfx ul li{color:rgba(234,255,243,.85)}
+@media (max-width:560px){#wn .wl,#wn .wl.wold{grid-template-columns:1fr}#wn .wdt{flex-direction:row;align-items:baseline;gap:10px}#wn .wdt b{font-size:30px}}
