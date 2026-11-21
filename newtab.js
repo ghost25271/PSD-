@@ -1818,7 +1818,7 @@ $('#updbtn').onclick = updRun;
 
 /* ---------- «Пульс»: сканує посилання плиток — мертві, переїхали, повільні, припарковані домени ---------- */
 var PLS = { t: 0, r: {} };   // var: плитки можуть малюватися ще до цього рядка
-const lpOf = t => { const x = PLS.r[t.id]; return x && x.u === t.url ? x : null; };
+function lpOf(t) { const x = PLS && PLS.r && PLS.r[t.id]; return x && x.u === t.url ? x : null; }   // function + var: викликається ще під час першого малювання плиток
 const lpSkip = u => { try { const o = new URL(u), h = o.hostname; return !/^https?:$/.test(o.protocol) || h === 'localhost' || !h.includes('.') || /\.(local|lan|internal|home|corp)$/.test(h) || /^(10\.|127\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h) || h.startsWith('['); } catch { return true; } };
 const lpReg = h => h.replace(/^www\./, '').split('.').slice(-2).join('.');
 const LP_AUTH = /login|signin|sign-in|auth|sso|account|oauth|consent|verify|session|captcha|cookie|continue=|redirect|return/i;
