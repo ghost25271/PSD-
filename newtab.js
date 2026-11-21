@@ -161,6 +161,7 @@ const MI = {   // значки пунктів контекстного меню
   pin: '<path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3z"/>',
   unpin: '<path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3zM3 3l18 18"/>',
   edit: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  qr: '<path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h3v3h-3zM20 14v3M14 20h3M20 20h1"/>',
   priv: '<path d="M3 11l2-6.5A2 2 0 0 1 6.9 3h10.2A2 2 0 0 1 19 4.5L21 11M2 11h20M6.5 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17.5 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM9.5 17h5"/>',
   copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/>',
   move: '<path d="M5 12h14M13 6l6 6-6 6"/>',
@@ -1192,6 +1193,7 @@ function bindGrid(g, getH) {
     it.push([L('m_edit'), () => openEdit(t, h), 'edit']);
     if (!t.folder && /^https?:/i.test(t.url || '')) {
       it.push([L('m_private'), () => { visit(t, n); try { chrome.windows.create({ url: t.url, incognito: true }).catch(() => toast(L('m_private_no'))); } catch { toast(L('m_private_no')); } }, 'priv']);   // потрібен дозвіл «Дозволити в режимі анонім» у налаштуваннях розширення
+      it.push([L('m_qr'), () => qrShow(t), 'qr']);
       it.push([L('m_copy'), () => { navigator.clipboard.writeText(t.url).then(() => toast(L('m_copied')), () => toast(L('m_copy_no'))); }, 'copy']);
     }
     if (D.p.length > 1) it.push([L('m_move'), () => setTimeout(() => menu(e, D.p.filter(p => p !== h).map(p => [`${p.name} · ${p.t.length}/${limOf(D)}`, () => moveToPage(t, h, p)], 'page')), 0), 'move']);   // другий рівень: список сторінок
@@ -1903,3 +1905,17 @@ $('#lp-scan').onclick = () => lpScan(false);
 $('#lp-res').onclick = () => { lpDraw(); BL.showModal(); };
 chrome.storage.local.get('lp').then(x => { if (x.lp && x.lp.r) PLS = x.lp; lpBtn(); redraw(); }).catch(() => { });
 setTimeout(() => { const d = { 7: 7, 30: 30 }[D && D.s && D.s.lpw]; if (d && Date.now() - PLS.t > d * 864e5 && !document.hidden) lpScan(true); }, 9000);
+
+/* ---------- QR-код плитки: скануєте телефоном і відкриваєте адресу ---------- */
+function qrShow(t) {
+  let u = t.url; try { u = new URL(t.url).href; } catch { }   // href кодує кирилицю й IDN, щоб QR прочитався будь-яким телефоном
+  let q = null;
+  for (const lv of [QRLib.L.M, QRLib.L.L]) { try { q = new QRLib.QRCode(0, lv); q.addData(u); q.make(); break; } catch { q = null; } }
+  if (!q) return mxAlert(L('qr_long'));
+  const cv = $('#qr-c'), x = cv.getContext('2d'), n = q.getModuleCount(), b = 4, s = Math.floor(264 / (n + b * 2)), off = Math.floor((264 - s * n) / 2);
+  x.fillStyle = '#fff'; x.fillRect(0, 0, 264, 264); x.fillStyle = '#000';
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) x.fillRect(off + c * s, off + r * s, s, s);
+  $('#qr-t').textContent = t.title || ''; $('#qr-u').textContent = u; $('#qr').showModal();
+}
+$('#qr-ok').onclick = () => $('#qr').close();
+$('#qr').addEventListener('click', e => { if (e.target.id === 'qr') $('#qr').close(); });

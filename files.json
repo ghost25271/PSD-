@@ -8,6 +8,7 @@
  "i18n.js",
  "donate.js",
  "upd.js",
+ "qrcode.js",
  "popup.html",
  "popup.js",
  "panic.js",
