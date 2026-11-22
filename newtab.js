@@ -530,11 +530,13 @@ function wnShow() {
   const box = $('#wn-b'), cl = typeof CHANGELOG !== 'undefined' && Array.isArray(CHANGELOG) && CHANGELOG.length ? CHANGELOG : [{ v: WN.v, d: WN.date, items: WN.last.map(k => L(k)) }];
   const T = x => x && typeof x === 'object' && !Array.isArray(x) ? (x[LANG] || x.uk || x.en || '') : (x == null ? '' : String(x));
   const fmt = d => { try { return new Intl.DateTimeFormat(LANG, { day: 'numeric', month: 'long' }).format(new Date(d + 'T00:00:00')); } catch { return d || ''; } };
-  box.replaceChildren(...cl.map(e => {
+  const grp = [];   // записи з однаковою датою зливаються в одне вікно
+  cl.forEach(e => { const g = grp.find(x => x.d === e.d); if (g) { g.items.push(...(e.items || [])); g.fixes.push(...(e.fixes || [])); g.v0 = e.v; } else grp.push({ v: e.v, v0: e.v, d: e.d, items: [...(e.items || [])], fixes: [...(e.fixes || [])] }); });
+  box.replaceChildren(...grp.map(e => {
     const c = el('section', 'wl'), h = el('div', 'wdt'), dd = new Date(e.d + 'T00:00:00'), ok = !isNaN(dd);
     let dn = '', mn = e.d || ''; try { if (ok) { dn = String(dd.getDate()); mn = new Intl.DateTimeFormat(LANG, { month: 'long' }).format(dd); } } catch { }
     h.append(el('b', null, dn), el('span', null, mn));
-    if (e.v) h.append(el('small', null, 'v' + e.v));
+    if (e.v) h.append(el('small', null, 'v' + (e.v0 && e.v0 !== e.v ? e.v0 + ' – ' + e.v : e.v)));
     const rt = el('div', 'wr'), ul = el('ul');
     (e.items || []).forEach(it => { const li = el('li'); if (Array.isArray(it)) li.append(el('b', null, T(it[0]) + ': '), document.createTextNode(T(it[1]))); else li.textContent = T(it); ul.append(li); });
     rt.append(ul);

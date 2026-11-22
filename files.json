@@ -18,5 +18,9 @@
  "icons/128.png",
  "icons/16.png",
  "icons/48.png",
- "icons/premium.webp"
+ "icons/premium.webp",
+ "fonts/jura.woff",
+ "fonts/sciencegothic.woff",
+ "fonts/OFL-Jura.txt",
+ "fonts/OFL-ScienceGothic.txt"
 ]
